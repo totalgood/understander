@@ -18,9 +18,9 @@ install:
   - sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
   - if [ ! -d "$HOME/miniconda" ]; then if [ ! -f "miniconda.sh" ] ; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh ; fi ; bash miniconda.sh -b -f -p "$HOME/miniconda" ; fi
   - export PATH="$HOME/miniconda/bin:$PATH"
-  - cp conda/.condarc ~/.condarc
+  - cp .condarc ~/.condarc
   - conda update -n base conda
-  - hash -r
+  - hash -r  # refresh the hash table of commands (because we added conda to PATH)
   - echo "running-- conda env create -f $ENVIRONMENT_YML -n testenv python=$CONDA_PYTHON_VERSION"
   - travis_wait 30 conda env create -q -f $ENVIRONMENT_YML -n testenv python=$CONDA_PYTHON_VERSION
   - source activate testenv
