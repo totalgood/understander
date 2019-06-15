@@ -13,15 +13,51 @@ set -e
 if [[ "$DISTRIB" == "conda" ]]; then
     # Deactivate the travis-provided virtual environment and setup a
     # conda-based environment instead
-    deactivate
+    export ENVIRONMENT_YML="conda/environment.yml"
+    export CONDA_PYTHON_VERSION=3.7
+    echo "ENVIRONMENT_YML = $ENVIRONMENT_YML"
+    echo "TRAVIS_PYTHON_VERSION = $TRAVIS_PYTHON_VERSION"
+    echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
+    env
+    sudo apt-get update
+    sudo apt-get remove -y python-boto
+    sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+    if [ ! -d "$HOME/miniconda" ]; then
+        if [ ! -f "miniconda.sh" ] ; then
+            wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh ;
+        fi ;
+        bash miniconda.sh -b -f -p "$HOME/miniconda" ;
+    fi ;
+    # wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    # bash miniconda.sh -b -f -p $HOME/miniconda
+    export PATH="$HOME/miniconda/bin:$PATH"
+    cp -f .condarc ~/.condarc
+    conda update -n base conda
+    hash -r  # refresh hashtable of commands like conda and deactivate
+    echo "running: conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
+    travis_wait 30 conda env create -q -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION
+    source activate understander
+    conda install pip
+    conda install python-annoy
+    pip install -U PyScaffold ;
+    pip install -r requirements.txt
+    pip install -U -e .
+    python -c "import nltk; nltk.download('punkt')"
+    conda info -a
+    conda list
+    pip install codecov
 
-    # Use the anaconda3 installer
-    DOWNLOAD_DIR=${DOWNLOAD_DIR:-$HOME/.tmp/anaconda3}
-    mkdir -p $DOWNLOAD_DIR
-    wget -q http://repo.continuum.io/archive/Anaconda3-5.2.0-Linux-x86_64.sh -O $DOWNLOAD_DIR/anaconda3.sh
-    chmod +x $DOWNLOAD_DIR/anaconda3.sh && bash $DOWNLOAD_DIR/anaconda3.sh -b -u -p $HOME/anaconda3
-    # rm -r -d -f $DOWNLOAD_DIR
-    # export PATH=$HOME/anaconda3/bin:$PATH
+    if [ ! -d "$HOME/miniconda" ];
+        deactivate || echo "conda and deactivate commands not yet installed"
+
+        # Use the anaconda3 installer
+        DOWNLOAD_DIR=${DOWNLOAD_DIR:-$HOME/.tmp/anaconda3}
+        mkdir -p $DOWNLOAD_DIR
+        wget -q http://repo.continuum.io/archive/Anaconda3-2019.03-Linux-x86_64.sh -O $DOWNLOAD_DIR/anaconda3.sh
+        chmod +x $DOWNLOAD_DIR/anaconda3.sh && bash $DOWNLOAD_DIR/anaconda3.sh -b -u -p $HOME/anaconda3
+        # rm -r -d -f $DOWNLOAD_DIR
+        # export PATH=$HOME/anaconda3/bin:$PATH
+    fi
     conda update -q -y conda
     conda install -q -y pip
     conda install -q -y swig
