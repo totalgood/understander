@@ -6,12 +6,6 @@ sudo: false
 language: python
 python:
   - "3.6"
-virtualenv:
-  system_site_packages: false
-matrix:
-  include:
-    - env: DISTRIB="conda" PYTHON_VERSION="3.6" COVERAGE="false"
-    - env: DISTRIB="conda" PYTHON_VERSION="3.7" COVERAGE="false"
 install:
   - export ENVIRONMENT_YML="environment.yml"
   - export CONDA_PYTHON_VERSION=3.7
