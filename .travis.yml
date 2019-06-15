@@ -4,6 +4,11 @@
 
 sudo: false
 language: python
+python:
+  - "3.6"
+  # - "2.7"
+  # - "3.6-dev"
+  # - "3.7"
 virtualenv:
   system_site_packages: true
 matrix:
@@ -12,19 +17,43 @@ matrix:
       env: DISTRIB="ubuntu" TOX_PYTHON_VERSION="py34" COVERAGE="true"
     - env: DISTRIB="conda" PYTHON_VERSION="3.6" COVERAGE="false"
 install:
-  - source tests/travis_install.sh
+  - export ENVIRONMENT_YML="environment.yml"
+  - export CONDA_PYTHON_VERSION=3.7
+  - echo "ENVIRONMENT_YML = $ENVIRONMENT_YML"
+  - echo "TRAVIS_PYTHON_VERSION = $TRAVIS_PYTHON_VERSION"
+  - echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
+  - env
+  - sudo apt-get update
+  - sudo apt-get remove -y python-boto
+  - sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - cp conda/.condarc ~/.condarc
+  - conda update -n base conda
+  - hash -r
+  - echo "running-- conda env create -f $ENVIRONMENT_YML -n testenv python=$CONDA_PYTHON_VERSION"
+  - travis_wait 30 conda env create -q -f $ENVIRONMENT_YML -n testenv python=$CONDA_PYTHON_VERSION
+  - source activate testenv
+  - conda install pip
+  - conda install python-annoy
+  - pip install -U PyScaffold
   - pip install -r requirements.txt
-  # ^  DEPRECATION WARNING:
-  # The automatic creation of a `requirements.txt` file is deprecated.
-  # See `Dependency Management` in the docs for other options.
+  - pip install -U -e .
+  - python -c "import nltk; nltk.download('punkt')"
+  - conda info -a
+  - conda list
+  - pip install codecov
+  - source tests/travis_install.sh  # installs full Anaconda3 instead of miniconda! plus spacy etc
 before_script:
-  - git config --global user.email "you@example.com"
-  - git config --global user.name "Your Name"
+  - git config --global user.email "understander+travis@totalgood.com"
+  - git config --global user.name "Understander App on Travis"
 script:
   - python setup.py test
-  # ^  Change here if using tox
 after_success:
-  - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
+  # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
+  - bash < (curl -s https://codecov.io/bash)
+  - codecov
 after_script:
   - travis-cleanup
 cache:
