@@ -22,12 +22,12 @@ if [[ "$DISTRIB" == "conda" ]]; then
     sudo apt-get update
     sudo apt-get remove -y python-boto
     sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
-    if [ ! -d "$HOME/miniconda" ]; then
-        if [ ! -f "miniconda.sh" ] ; then
+    if [[ ! -d "$HOME/miniconda" ]] ; then
+        if [[ ! -f "miniconda.sh" ]] ; then
             wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh ;
-        fi ;
+        fi
         bash miniconda.sh -b -f -p "$HOME/miniconda" ;
-    fi ;
+    fi
     # wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
     # bash miniconda.sh -b -f -p $HOME/miniconda
     export PATH="$HOME/miniconda/bin:$PATH"
@@ -47,7 +47,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     conda list
     pip install codecov
 
-    if [ ! -d "$HOME/miniconda" ];
+    if [[ ! -d "$HOME/miniconda" ]] ; then
         deactivate || echo "conda and deactivate commands not yet installed"
 
         # Use the anaconda3 installer
