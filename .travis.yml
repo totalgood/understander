@@ -12,6 +12,8 @@ before_script:
   - git config --global user.email "understander+travis@totalgood.com"
   - git config --global user.name "Understander App on Travis"
 script:
+  - source activate understander
+  - pip install --upgrade pip
   - python setup.py test
 after_success:
   # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
