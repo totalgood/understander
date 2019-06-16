@@ -48,6 +48,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     python -m spacy download en
     pip install -U PyScaffold ;
     pip install -r requirements.txt
+    pip install --upgrade pip setuptools
     pip install -U -e .
     echo "Downloading nltk punkt, Penn Treebank, and wordnet corpora..."
     python -c "import nltk; nltk.download('punkt'); nltk.download('treebank'); nltk.download('wordnet');"

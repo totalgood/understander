@@ -15,7 +15,7 @@ script:
   - source activate understander
   - which python
   - python --version
-  - pip install --upgrade pip
+  - pip install --upgrade setuptools pip
   - python setup.py test
 after_success:
   # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
