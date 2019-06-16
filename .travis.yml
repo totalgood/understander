@@ -20,11 +20,12 @@ script:
   - pip install --upgrade setuptools pip
   - python setup.py test
 after_success:
-  # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
-  - bash < (curl -s https://codecov.io/bash)
   - codecov
+  # - bash < (curl -s https://codecov.io/bash)
+  # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
 after_script:
   - travis-cleanup
+
 cache:
   pip: true
   directories:
