@@ -10,8 +10,10 @@
 
 set -e
 
+export DISTRIB="conda"
+
 if [[ "$DISTRIB" == "conda" ]]; then
-    export ENVIRONMENT_YML="conda/environment.yml"
+    export ENVIRONMENT_YML="environment.yml"
     export CONDA_PYTHON_VERSION=3.7
     echo "ENVIRONMENT_YML = $ENVIRONMENT_YML"
     echo "TRAVIS_PYTHON_VERSION = $TRAVIS_PYTHON_VERSION"
