@@ -7,7 +7,6 @@ language: python
 python:
   - "3.6"
 install:
-  - deactivate || echo "deactivate not installed"
   - source tests/travis_install.sh  # installs full Anaconda3 instead of miniconda! plus spacy etc
   - conda activate understander
   - which python
