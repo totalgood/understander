@@ -11,8 +11,6 @@
 set -e
 
 if [[ "$DISTRIB" == "conda" ]]; then
-    # Deactivate the travis-provided virtual environment and setup a
-    # conda-based environment instead
     export ENVIRONMENT_YML="conda/environment.yml"
     export CONDA_PYTHON_VERSION=3.7
     echo "ENVIRONMENT_YML = $ENVIRONMENT_YML"

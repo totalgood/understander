@@ -7,12 +7,13 @@ language: python
 python:
   - "3.6"
 install:
+  - deactivate || echo "conda not installed"
   - source tests/travis_install.sh  # installs full Anaconda3 instead of miniconda! plus spacy etc
 before_script:
   - git config --global user.email "understander+travis@totalgood.com"
   - git config --global user.name "Understander App on Travis"
 script:
-  - source activate understander
+  - conda activate understander
   - which python
   - python --version
   - pip install --upgrade setuptools pip
