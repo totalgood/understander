@@ -34,6 +34,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
     export PATH="$HOME/miniconda/bin:$PATH"
     cp -f .condarc ~/.condarc
     hash -r  # refresh hashtable of commands like conda and deactivate
+    echo "PATH: $PATH"
+    echo "which conda: $(which conda)"
     echo "Updating conda with conda quietly..."
     conda update -y -q -n base conda
     echo "running: conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
