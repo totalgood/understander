@@ -33,16 +33,24 @@ if [[ "$DISTRIB" == "conda" ]]; then
     export PATH="$HOME/miniconda/bin:$PATH"
     cp -f .condarc ~/.condarc
     hash -r  # refresh hashtable of commands like conda and deactivate
-    conda update -n base conda
+    echo "Updating conda with conda quietly..."
+    conda update -y -q -n base conda
     echo "running: conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
     travis_wait 30 conda env create -q -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION
     source activate understander
-    conda install pip
-    conda install python-annoy
+    echo "Installing pip with conda quietly..."
+    conda install -q -y  pip
+    conda install -q -y python-annoy
+    conda install -q -y swig
+    echo "Installing spacy with conda quietly..."
+    conda install -q -y spacy
+    echo "Downloading spacy 'en' language model..."
+    python -m spacy download en
     pip install -U PyScaffold ;
     pip install -r requirements.txt
     pip install -U -e .
-    python -c "import nltk; nltk.download('punkt')"
+    echo "Downloading nltk punkt, Penn Treebank, and wordnet corpora..."
+    python -c "import nltk; nltk.download('punkt'); nltk.download('treebank'); nltk.download('wordnet');"
     conda info -a
     conda list
     pip install codecov
@@ -58,31 +66,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
         # rm -r -d -f $DOWNLOAD_DIR
         # export PATH=$HOME/anaconda3/bin:$PATH
     fi
-    conda update -q -y conda
-    conda install -q -y pip
-    conda install -q -y swig
-    echo "creating conda environemnt -n understander -f $ENVIRONMENT_YML"
-    # Configure the conda environment and put it in the path using the provided versions
-    if [[ -f "$ENVIRONMENT_YML" ]]; then
-        conda env create -n understander -f "$ENVIRONMENT_YML"
-    else
-        echo "WARNING: Unable to find an environment.yml file !!!!!!"
-        conda create -q -n understander --yes python=$PYTHON_VERSION pip
-    fi
-    source activate understander
-    echo "Installing pip with conda quietly"
-    conda install -q -y pip
-
-    # download spacy English language model
-    echo "Installing pip with conda quietly"
-    conda install spacy
-    echo "Downloading spacy language model"
-    python -m spacy download en
-
-    # download NLTK punkt, Penn Treebank, and wordnet corpora
-    python -c "import nltk; nltk.download('punkt'); nltk.download('treebank'); nltk.download('wordnet');"
-    which python
-    python --version
+    echo "which python: $(which python)"
+    echo "python --version: $(python --version)"
 
 elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # Use standard ubuntu packages in their default version
