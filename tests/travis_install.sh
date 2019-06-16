@@ -23,10 +23,13 @@ if [[ "$DISTRIB" == "conda" ]]; then
     sudo apt-get remove -y python-boto
     sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
     if [[ ! -d "$HOME/miniconda" || -z "$(which conda)" ]] ; then
-        echo "Install miniconda (conda)..."
+        echo "Install miniconda (conda)..." ;
         if [[ ! -f "miniconda.sh" ]] ; then
+
+            echo "Downloading miniconda.sh: https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh"
             wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh ;
         fi ;
+        echo "Running miniconda.sh: bash miniconda.sh -b -f -p $HOME/miniconda" ;
         bash miniconda.sh -b -f -p "$HOME/miniconda" ;
     fi ;
     # wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
