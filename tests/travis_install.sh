@@ -22,9 +22,9 @@ if [[ "$DISTRIB" == "conda" ]]; then
     if [[ -z $(which apt-get) ]] ; then
         echo "Must be on Mac or Windows, there's no apt-get package installer command. User beware!" ;
     else
-        apt-get update
-        apt-get remove -y python-boto
-        apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+        sudo apt-get update
+        sudo apt-get remove -y python-boto
+        sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
     fi ;
     if [[ -z "$(which conda)" ]] ; then
         echo "Install miniconda (conda)..." ;
@@ -88,21 +88,21 @@ if [[ "$DISTRIB" == "conda" ]]; then
 elif [[ "$DISTRIB" == "ubuntu" && ! -z "$(which apt)" ]] ; then
     # Use standard ubuntu packages in their default version
     echo $DISTRIB
-    apt-get install -y build-essential swig gfortran
-    apt-get install -y python-dev python3-dev python-pip python3-pip
+    sudo apt-get install -y build-essential swig gfortran
+    sudo apt-get install -y python-dev python3-dev python-pip python3-pip
 
-    apt-get install -y python-igraph
+    sudo apt-get install -y python-igraph
 
     # SpeechRecognizer requires PyAudio
-    apt-get install -y portaudio19-dev python-pyaudio python3-pyaudio
+    sudo apt-get install -y portaudio19-dev python-pyaudio python3-pyaudio
 
     # for scipy
-    apt-get install -y libopenblas-dev liblapack-dev
-    apt-get install -y python-scipy python3-scipy
+    sudo apt-get install -y libopenblas-dev liblapack-dev
+    sudo apt-get install -y python-scipy python3-scipy
 
     # for matplotlib:
-    apt-get install -y libpng12-dev libfreetype6-dev
-    apt-get install -y tcl-dev tk-dev python-tk python3-tk
+    sudo apt-get install -y libpng12-dev libfreetype6-dev
+    sudo apt-get install -y tcl-dev tk-dev python-tk python3-tk
 fi
 
 if [[ "$COVERAGE" == "true" ]]; then
