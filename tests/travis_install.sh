@@ -39,8 +39,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
     hash -r  # refresh hashtable of commands like conda and deactivate
     echo "PATH: $PATH"
     echo "which conda: $(which conda)"
-    echo "Updating conda with conda quietly..."
-    conda install anaconda
+    echo "Installing anaconda with conda quietly..."
+    conda install -y anaconda
     # conda update -y -q -n base conda
     echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
     if [[ -z "$(which travis_wait)" ]] ; then
