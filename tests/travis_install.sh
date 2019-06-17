@@ -40,7 +40,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "PATH: $PATH"
     echo "which conda: $(which conda)"
     echo "Updating conda with conda quietly..."
-    conda update -y -q -n base conda
+    conda install anaconda
+    # conda update -y -q -n base conda
     echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
     if [[ -z "$(which travis_wait)" ]] ; then
         conda env create -n understander -f $ENVIRONMENT_YML
