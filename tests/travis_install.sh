@@ -20,11 +20,11 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
     env
     if [[ -z $(which apt) ]] ; then
-        echo "Must be on Mac or Windows, there's no apt package manager. User beware!"
+        echo "Must be on Mac or Windows, there's no apt package manager. User beware!" ;
     else
-        apt-get update
-        apt-get remove -y python-boto
-        apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+        apt update
+        apt remove -y python-boto
+        apt install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
     fi ;
     if [[ -z "$(which conda)" ]] ; then
         echo "Install miniconda (conda)..." ;
