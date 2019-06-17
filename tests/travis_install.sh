@@ -22,7 +22,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     sudo apt-get update
     sudo apt-get remove -y python-boto
     sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
-    if [[ ! -d "$HOME/miniconda" || -z "$(which conda)" ]] ; then
+    if [[ -z "$(which conda)" ]] ; then
         echo "Install miniconda (conda)..." ;
         if [[ ! -f "miniconda.sh" ]] ; then
 
@@ -31,10 +31,10 @@ if [[ "$DISTRIB" == "conda" ]]; then
         fi ;
         echo "Running miniconda.sh: bash miniconda.sh -b -f -p $HOME/miniconda" ;
         bash miniconda.sh -b -f -p "$HOME/miniconda" ;
+        export PATH="$HOME/miniconda/bin:$PATH"
     fi ;
     # wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
     # bash miniconda.sh -b -f -p $HOME/miniconda
-    export PATH="$HOME/miniconda/bin:$PATH"
     cp -f .condarc ~/.condarc
     hash -r  # refresh hashtable of commands like conda and deactivate
     echo "PATH: $PATH"

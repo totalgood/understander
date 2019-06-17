@@ -19,8 +19,8 @@ script:
   - python --version
   - pip install --upgrade setuptools pip
   - python setup.py test
-after_success:
-  - codecov
+# after_success:
+  # - codecov
   # - bash < (curl -s https://codecov.io/bash)
   # - if [[ "$COVERAGE" == "true" ]]; then coveralls || echo "failed"; fi
 after_script:
