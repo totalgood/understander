@@ -8,6 +8,7 @@
 # (`Dependency Management` section).
 # =============================================================================
 #
+boto3
 django
 django-extensions
 django-debug-toolbar
