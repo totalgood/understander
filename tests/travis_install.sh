@@ -19,9 +19,13 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "TRAVIS_PYTHON_VERSION = $TRAVIS_PYTHON_VERSION"
     echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
     env
-    sudo apt-get update
-    sudo apt-get remove -y python-boto
-    sudo apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+    if [[ -z $(which apt) ]] ; then
+        echo "Must be on Mac or Windows, there's no apt package manager. User beware!"
+    else
+        apt-get update
+        apt-get remove -y python-boto
+        apt-get install -y libasound* build-essential gfortran libopenblas-dev liblapack-dev pandoc portaudio19-dev
+    fi ;
     if [[ -z "$(which conda)" ]] ; then
         echo "Install miniconda (conda)..." ;
         if [[ ! -f "miniconda.sh" ]] ; then
@@ -83,7 +87,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "which python: $(which python)"
     echo "python --version: $(python --version)"
 
-elif [[ "$DISTRIB" == "ubuntu" ]]; then
+elif [[ "$DISTRIB" == "ubuntu" && ! -z "$(which apt)" ]] ; then
     # Use standard ubuntu packages in their default version
     echo $DISTRIB
     apt-get install -y build-essential swig gfortran
