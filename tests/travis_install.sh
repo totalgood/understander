@@ -41,8 +41,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "which conda: $(which conda)"
     echo "Updating conda with conda quietly..."
     conda update -y -q -n base conda
-    echo "running: conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
-    travis_wait 30 conda env create -q -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION
+    echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
+    travis_wait 30 conda env create -n understander -f $ENVIRONMENT_YML
     source activate understander
     echo "Installing pip with conda quietly..."
     conda install -q -y  pip
