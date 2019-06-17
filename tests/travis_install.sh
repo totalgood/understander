@@ -14,7 +14,7 @@ export DISTRIB="conda"
 
 if [[ "$DISTRIB" == "conda" ]]; then
     export ENVIRONMENT_YML="environment.yml"
-    export CONDA_PYTHON_VERSION=3.7
+    # export CONDA_PYTHON_VERSION=3.7
     echo "ENVIRONMENT_YML = $ENVIRONMENT_YML"
     echo "TRAVIS_PYTHON_VERSION = $TRAVIS_PYTHON_VERSION"
     echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
@@ -42,10 +42,12 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "Installing anaconda with conda quietly..."
     conda install -y anaconda
     # conda update -y -q -n base conda
-    echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander python=$CONDA_PYTHON_VERSION"
     if [[ -z "$(which travis_wait)" ]] ; then
+        echo "conda env create -n understander -f $ENVIRONMENT_YML"
         conda env create -n understander -f $ENVIRONMENT_YML
     else
+        echo travis_wait 1 echo "waited 1 minute for this to echo"
+        echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander"
         travis_wait 30 conda env create -n understander -f $ENVIRONMENT_YML
     fi
     conda activate understander
