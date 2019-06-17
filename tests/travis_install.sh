@@ -54,7 +54,9 @@ if [[ "$DISTRIB" == "conda" ]]; then
         echo "running: travis_wait 30 conda env create -f $ENVIRONMENT_YML -n understander"
         travis_wait 30 conda env create -n understander -f $ENVIRONMENT_YML
     fi
-    conda activate understander
+    # conda init
+    # conda activate understander
+    source activate understander
     echo "Installing pip python-annoy and swig with conda..."
     conda install -y pip python-annoy swig
     echo "Now that swig is isntalled, installing spacy with conda..."
