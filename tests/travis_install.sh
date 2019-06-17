@@ -20,7 +20,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "CONDA_PYTHON_VERSION = $CONDA_PYTHON_VERSION"
     env
     if [[ -z $(which apt-get) ]] ; then
-        echo "Must be on Mac or Windows, there's no apt package manager. User beware!" ;
+        echo "Must be on Mac or Windows, there's no apt-get package installer command. User beware!" ;
     else
         apt-get update
         apt-get remove -y python-boto
@@ -43,7 +43,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     hash -r  # refresh hashtable of commands like conda and deactivate
     echo "PATH: $PATH"
     echo "which conda: $(which conda)"
-    echo "Installing anaconda with conda quietly..."
+    echo "Installing anaconda with conda..."
     conda install -y anaconda
     # conda update -y -q -n base conda
     if [[ -z "$(which travis_wait)" ]] ; then
@@ -55,12 +55,10 @@ if [[ "$DISTRIB" == "conda" ]]; then
         travis_wait 30 conda env create -n understander -f $ENVIRONMENT_YML
     fi
     conda activate understander
-    echo "Installing pip with conda quietly..."
-    conda install -q -y  pip
-    conda install -q -y python-annoy
-    conda install -q -y swig
-    echo "Installing spacy with conda quietly..."
-    conda install -q -y spacy
+    echo "Installing pip python-annoy and swig with conda..."
+    conda install -y pip python-annoy swig
+    echo "Now that swig is isntalled, installing spacy with conda..."
+    conda install -y spacy
     echo "Downloading spacy 'en' language model..."
     python -m spacy download en
     pip install -U PyScaffold ;
